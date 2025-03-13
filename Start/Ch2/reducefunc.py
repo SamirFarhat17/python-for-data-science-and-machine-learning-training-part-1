@@ -2,24 +2,26 @@
 # Using the reduce function
 
 import json
-
+from functools import reduce
 
 # open the sample weather data file and use the json module to load and parse it
 with open("../../sample-weather-history.json", "r") as weatherfile:
     weatherdata = json.load(weatherfile)
 
-# TODO: how much snowfall is in the entire dataset?
+# how much snowfall is in the entire dataset?
+total_snowfall = reduce(lambda acc, elem: acc + elem['snow'], weatherdata, 0)
+print(total_snowfall)
 
+# how much total precipitation is in the entire dataset?
+total_precip = reduce(lambda acc, elem: acc + (elem['snow'] + elem['prcp']), weatherdata, 0)
+print(total_precip)
 
-# TODO: how much total precipitation is in the entire dataset?
-
-
-# TODO: What was the warmest day in which it snowed? Need to find highest 'tmax' for all
+# What was the warmest day in which it snowed? Need to find highest 'tmax' for all
 # days where 'snow' > 0
 def warm_snow_day(acc, elem):
-    # return the elem value if the snow amount > 0 and its tmax value is
+    # return the current element if the snow amount > 0 and its tmax value is
     # larger than the tmax value that is in the acc argument
-    pass
+    return elem if elem['snow'] > 0 and elem['tmax'] > acc['tmax'] else acc
 
 # define a "zero" value start date for the reduce function to start with
 start_val = {
@@ -32,4 +34,6 @@ start_val = {
     "awnd": 0.0
 }
 
-# TODO: reduce the data set to the warmest snow day
+# reduce the data set to the warmest snow day
+result = reduce(warm_snow_day, weatherdata, start_val)
+print(f"{result['date']} with temp: {result['tmax']} and snowfall: {result['snow']}")

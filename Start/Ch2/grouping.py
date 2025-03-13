@@ -4,6 +4,7 @@
 import json
 from collections import defaultdict
 import pprint
+from itertools import groupby
 
 # open the sample weather data file and use the json module to load and parse it
 with open("../../sample-weather-history.json", "r") as weatherfile:
@@ -20,10 +21,12 @@ for d in year:
 print(f"{len(datagroup)} total precipitation groups")
 pprint.pp(datagroup)
 
-# TODO: Use groupby to get the days of a given year by how much precipitation happened
+# Use groupby to get the days of a given year by how much precipitation happened
+grouped = {k: list(v) for k, v in groupby(year, key=lambda d: d['prcp'])}
 
+# How many groups do we have? Now we can use len() on the dictionary
+print(f"{len(grouped)} total precipitation groups")
 
-# TODO: How many groups do we have? Now we can use len() on the dictionary
-
-
-# TODO: we can iterate over the dictionary to list each group
+# we can iterate over the dictionary to list each group
+for key, data in grouped.items():
+    print(f"Precip: {key}, # days: {len(data)}, Days: {list(map(lambda d: d['date'], data))}")
