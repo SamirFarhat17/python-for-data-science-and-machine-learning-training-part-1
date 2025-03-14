@@ -1,7 +1,3 @@
-# **Python for Data Science and Machine Learning Essential Training - Part 1** 
-# hands-on-advanced-python-data-engineering-basics
-
-This repository contains notes, code, and exercises from the **LinkedIn Learning** course:  
 **"Python for Data Science and Machine Learning Essential Training - Part 1."**  
 
 ## **Course Overview**  
